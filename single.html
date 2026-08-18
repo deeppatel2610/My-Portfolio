@@ -105,27 +105,30 @@
 
             <div class="comment-form-wrap pt-5">
               <h3 class="mb-5">Get in Touch / Inquiry</h3>
-              <form action="index.html#contact-section" class="p-5 bg-dark rounded">
+              <form id="single-contact-form" action="#" class="p-5 bg-dark rounded">
                 <div class="form-group">
-                  <label for="name">Name *</label>
-                  <input type="text" class="form-control" id="name" required>
+                  <label for="single-name">Name *</label>
+                  <input type="text" class="form-control" id="single-name" required>
                 </div>
                 <div class="form-group">
-                  <label for="email">Email *</label>
-                  <input type="email" class="form-control" id="email" required>
+                  <label for="single-email">Email *</label>
+                  <input type="email" class="form-control" id="single-email" required>
                 </div>
                 <div class="form-group">
-                  <label for="subject">Subject</label>
-                  <input type="text" class="form-control" id="subject">
+                  <label for="single-subject">Subject</label>
+                  <input type="text" class="form-control" id="single-subject">
                 </div>
 
                 <div class="form-group">
-                  <label for="message">Message</label>
-                  <textarea name="" id="message" cols="30" rows="6" class="form-control" required></textarea>
+                  <label for="single-message">Message</label>
+                  <textarea name="" id="single-message" cols="30" rows="6" class="form-control" required></textarea>
                 </div>
                 <div class="form-group mb-0">
-                  <input type="submit" value="Send Message" class="btn py-3 px-4 btn-primary">
+                  <button type="submit" id="single-submit-btn" class="btn py-3 px-4 btn-primary">
+                    <span>Send Message</span>
+                  </button>
                 </div>
+                <div id="single-alert-box" class="contact-alert-banner mt-3" style="display: none"></div>
               </form>
             </div>
 
@@ -210,16 +213,16 @@
               </p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                 <li class="ftco-animate">
-                  <a href="https://github.com/" target="_blank"><i class="fa-brands fa-github"></i></a>
+                  <a href="https://github.com/deeppatel2610" target="_blank"><i class="fa-brands fa-github"></i></a>
                 </li>
                 <li class="ftco-animate">
-                  <a href="https://linkedin.com/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="https://www.linkedin.com/in/deep-patel-5549492b9" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
                 </li>
                 <li class="ftco-animate">
                   <a href="https://wa.me/916353614861" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
                 </li>
                 <li class="ftco-animate">
-                  <a href="mailto:deeppatel100267@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+                  <a href="mailto:deeppatel100267@gmail.com" onclick="openEmailCompose(event, 'deeppatel100267@gmail.com')"><i class="fa-solid fa-envelope"></i></a>
                 </li>
               </ul>
             </div>
@@ -255,7 +258,7 @@
  	              <ul>
  	                <li><span class="icon icon-map-marker"></span><span class="text">Surat, Gujarat, India</span></li>
  	                <li><a href="tel:+916353614861"><span class="icon icon-phone"></span><span class="text">+91 63536 14861</span></a></li>
- 	                <li><a href="mailto:deeppatel100267@gmail.com"><span class="icon icon-envelope"></span><span class="text">deeppatel100267@gmail.com</span></a></li>
+ 	                <li><a href="mailto:deeppatel100267@gmail.com" onclick="openEmailCompose(event, 'deeppatel100267@gmail.com')"><span class="icon icon-envelope"></span><span class="text">deeppatel100267@gmail.com</span></a></li>
  	              </ul>
  	            </div>
             </div>
@@ -287,5 +290,82 @@
     <script src="js/jquery.animateNumber.min.js"></script>
     <script src="js/scrollax.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+      function openEmailCompose(event, email, subject, body) {
+        if (event) event.preventDefault();
+        const recipient = email || "deeppatel100267@gmail.com";
+        const mailSubject = subject || "Portfolio Inquiry - Deep Patel";
+        const mailBody =
+          body ||
+          "Hello Deep,\n\nI visited your portfolio website and would like to get in touch with you regarding a project or opportunity.\n\nBest regards,";
+
+        const mailtoUrl =
+          "mailto:" +
+          recipient +
+          "?subject=" +
+          encodeURIComponent(mailSubject) +
+          "&body=" +
+          encodeURIComponent(mailBody);
+        const gmailUrl =
+          "https://mail.google.com/mail/?view=cm&fs=1&to=" +
+          recipient +
+          "&su=" +
+          encodeURIComponent(mailSubject) +
+          "&body=" +
+          encodeURIComponent(mailBody);
+
+        window.open(gmailUrl, "_blank");
+
+        setTimeout(function () {
+          window.location.href = mailtoUrl;
+        }, 150);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const contactForm = document.getElementById("single-contact-form");
+        const alertBox = document.getElementById("single-alert-box");
+        const submitBtn = document.getElementById("single-submit-btn");
+
+        if (contactForm) {
+          contactForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const name = document.getElementById("single-name").value.trim();
+            const email = document.getElementById("single-email").value.trim();
+            const subject = document.getElementById("single-subject").value.trim();
+            const message = document.getElementById("single-message").value.trim();
+
+            const recipient = "deeppatel100267@gmail.com";
+            const mailSubject = subject ? subject : "Portfolio Inquiry from " + name;
+            const mailBody = "Hello Deep,\n\n" + message + "\n\n---\nSender Details:\nName: " + name + "\nEmail: " + email;
+
+            const gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=" + recipient + "&su=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(mailBody);
+
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.innerHTML = '<span>Opening Email Screen...</span>';
+            }
+
+            openEmailCompose(null, recipient, mailSubject, mailBody);
+
+            setTimeout(function () {
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Send Message</span>';
+              }
+
+              if (alertBox) {
+                alertBox.className = "contact-alert-banner success mt-3";
+                alertBox.innerHTML =
+                  '<i class="fa-solid fa-circle-check mr-2"></i> <strong>Opening send email screen!</strong><br><span style="font-size:13px; font-weight:400;">If the email compose window did not open, <a href="' +
+                  gmailUrl +
+                  '" target="_blank" style="color: #ffbd39; text-decoration: underline; font-weight: 600;">click here to open Gmail directly in browser</a>.</span>';
+                alertBox.style.display = "block";
+              }
+              contactForm.reset();
+            }, 1000);
+          });
+        }
+      });
+    </script>
   </body>
 </html>
